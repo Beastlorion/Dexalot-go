@@ -1,6 +1,7 @@
 package mdtypes
 
 import (
+	"math"
 	"time"
 
 	"github.com/Abso1ut3Zer0/Dexalot-go/src/marketdata"
@@ -19,5 +20,12 @@ type Ticker[T instr.Instrument] struct {
 }
 
 func EmptyTicker[T instr.Instrument]() Ticker[T] {
-	return Ticker[T]{}
+	return Ticker[T]{
+		Bid:            math.NaN(),
+		Offer:          math.NaN(),
+		Mid:            math.NaN(),
+		Last:           math.NaN(),
+		SequenceNumber: 0,
+		TransactTime:   time.Unix(0, 0),
+	}
 }

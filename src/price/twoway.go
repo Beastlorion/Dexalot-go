@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/Abso1ut3Zer0/Dexalot-go/src/marketdata/instr"
+	"github.com/Abso1ut3Zer0/Dexalot-go/src/marketdata/mdtypes"
 )
 
 type TwoWay[T instr.Instrument] struct {
@@ -33,7 +34,6 @@ func (price *TwoWay[T]) Equals(other TwoWay[T]) bool {
 		price.Bid == other.Bid && price.OfferQty == other.OfferQty && price.BidQty == other.BidQty
 }
 
-// TODO - this should probably be a singleton
 func EmptyTwoWay[T instr.Instrument]() TwoWay[T] {
 	return TwoWay[T]{
 		Bid:          math.NaN(),
@@ -46,4 +46,15 @@ func EmptyTwoWay[T instr.Instrument]() TwoWay[T] {
 
 func IsEmptyTwoWay[T instr.Instrument](price TwoWay[T]) bool {
 	return math.IsNaN(price.Bid) && math.IsNaN(price.Offer) && price.BidQty == 0.0 && price.OfferQty == 0.0
+}
+
+func TwoWayFromTicker[T instr.Instrument](ticker mdtypes.Ticker[T]) TwoWay[T] {
+	return TwoWay[T]{
+		Instrument:   ticker.Instrument,
+		Bid:          ticker.Bid,
+		Offer:        ticker.Offer,
+		BidQty:       0.0,
+		OfferQty:     0.0,
+		TransactTime: ticker.TransactTime,
+	}
 }

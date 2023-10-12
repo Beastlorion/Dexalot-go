@@ -1,10 +1,12 @@
 package price_test
 
 import (
+	"reflect"
 	"testing"
 	"time"
 
 	"github.com/Abso1ut3Zer0/Dexalot-go/src/marketdata/instr"
+	"github.com/Abso1ut3Zer0/Dexalot-go/src/marketdata/mdtypes"
 	"github.com/Abso1ut3Zer0/Dexalot-go/src/price"
 )
 
@@ -108,5 +110,50 @@ func TestSpreadBps(t *testing.T) {
 	expected := 1_000.0
 	if expected != price.SpreadBps() {
 		t.Errorf("Raw Spread Test FAILED. Expected %f, got %f", expected, price.SpreadBps())
+	}
+}
+
+func TestTwoWayFromTicker(t *testing.T) {
+	instrument := instr.Spot{}
+	bid := 100.0
+	offer := 110.0
+	transactTime := time.Now()
+
+	ticker := mdtypes.Ticker[instr.Spot]{
+		Instrument:   instrument,
+		Bid:          bid,
+		Offer:        offer,
+		TransactTime: transactTime,
+	}
+
+	expectedResult := price.TwoWay[instr.Spot]{
+		Instrument:   instrument,
+		Bid:          bid,
+		Offer:        offer,
+		BidQty:       0.0,
+		OfferQty:     0.0,
+		TransactTime: transactTime,
+	}
+
+	result := price.TwoWayFromTicker(ticker)
+
+	if !reflect.DeepEqual(result, expectedResult) {
+		t.Errorf("expected %v but got %v", expectedResult, result)
+	}
+}
+
+func TestTwoWayFromTickerNoTicker(t *testing.T) {
+	// Zero ticker is not the EmptyTwoWayPrice
+	var ticker mdtypes.Ticker[instr.Spot]
+	result := price.TwoWayFromTicker(ticker)
+
+	if price.IsEmptyTwoWay(result) {
+		t.Errorf("expected a Zero result but got %v", result)
+	}
+
+	ticker = mdtypes.EmptyTicker[instr.Spot]()
+	result = price.TwoWayFromTicker(ticker)
+	if !price.IsEmptyTwoWay(result) {
+		t.Errorf("expected an EmptyTwoWayPrice but got %v", result)
 	}
 }
