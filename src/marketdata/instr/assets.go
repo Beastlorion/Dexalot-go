@@ -5,6 +5,8 @@ import "strings"
 type Asset string 
 
 const (
+	BTC Asset = "BTC"
+	ETH Asset = "ETH"
     AVAX Asset = "AVAX"
     ALOT Asset = "ALOT"
 	LOST Asset = "LOST"
@@ -12,6 +14,7 @@ const (
 	STL Asset = "STL"
     BTCb Asset = "BTC.b"
     WETHe Asset = "WETH.e"
+	USD Asset = "USD"
     USDC Asset = "USDC"
     USDT Asset = "USDT"
     EUROC Asset = "EUROC"

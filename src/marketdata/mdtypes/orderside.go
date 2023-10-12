@@ -43,4 +43,3 @@ func (side OrderSide) Sign() int {
 		return 0
 	}
 }
-
