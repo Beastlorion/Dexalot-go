@@ -127,4 +127,3 @@ func TestSpotToLowerCaseDashSeparated(t *testing.T) {
 		t.Errorf("SpotToLowerCaseDashSeparated(%v) returned %v, expected %v", pair, result, expected)
 	}
 }
-

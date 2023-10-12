@@ -41,4 +41,3 @@ func TestOrderSide(t *testing.T) {
 		t.Errorf("Order side Test FAILED. Expected %d, got %d", 1, mySide.Sign())
 	}
 }
-

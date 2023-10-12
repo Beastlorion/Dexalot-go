@@ -4,7 +4,7 @@ type Exchange string
 
 const (
 	NilExchange Exchange = ""
-	Dexalot    Exchange = "DEXALOT"
+	Dexalot     Exchange = "DEXALOT"
 )
 
 type ExchangeMetaData struct {

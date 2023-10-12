@@ -9,12 +9,12 @@ import (
 )
 
 type TwoWay[T instr.Instrument] struct {
-	Instrument   T       
-	Bid          float64 
-	Offer        float64 
-	BidQty       float64 
-	OfferQty     float64 
-	TransactTime time.Time   
+	Instrument   T
+	Bid          float64
+	Offer        float64
+	BidQty       float64
+	OfferQty     float64
+	TransactTime time.Time
 }
 
 func (price *TwoWay[T]) Mid() float64 {

@@ -13,15 +13,15 @@ func TestToInternalAssetName(t *testing.T) {
 	}{
 		{"avax", instr.AVAX},
 		{"UsDc", instr.USDC},
-        {"USDC", instr.USDC},
-        {"btc.b", instr.BTCb},
-        {"btc.B", instr.BTCb},
-        {"BTC.B", instr.BTCb},
-        {"BTC.b", instr.BTCb},
-        {"WETH.e", instr.WETHe},
-        {"WETH.E", instr.WETHe},
-        {"weth.e", instr.WETHe},
-        {"weth.E", instr.WETHe},
+		{"USDC", instr.USDC},
+		{"btc.b", instr.BTCb},
+		{"btc.B", instr.BTCb},
+		{"BTC.B", instr.BTCb},
+		{"BTC.b", instr.BTCb},
+		{"WETH.e", instr.WETHe},
+		{"WETH.E", instr.WETHe},
+		{"weth.e", instr.WETHe},
+		{"weth.E", instr.WETHe},
 	}
 
 	for _, test := range tests {
@@ -31,4 +31,3 @@ func TestToInternalAssetName(t *testing.T) {
 		}
 	}
 }
-

@@ -32,4 +32,3 @@ type MarketOrder[T instr.Instrument] struct {
 	Side             mdtypes.OrderSide
 	TransactTime     time.Time
 }
-
