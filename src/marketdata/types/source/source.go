@@ -1,4 +1,4 @@
-package marketdata
+package source
 
 type Source string
 

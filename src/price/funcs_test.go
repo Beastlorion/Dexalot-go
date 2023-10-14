@@ -9,31 +9,31 @@ import (
 
 const epsilon = 1e-12
 
-func TestSkewPrice(t *testing.T) {
+func TestSkew(t *testing.T) {
 	px := 100.0
 	skewBps := 100.0
 
-	skewedPrice := price.SkewPrice(px, skewBps)
+	skewedPrice := price.Skew(px, skewBps)
 	assert.InDelta(t, 101.0, skewedPrice, epsilon)
 
-	skewedPrice = price.SkewPrice(px, -skewBps)
+	skewedPrice = price.Skew(px, -skewBps)
 
 	assert.InDelta(t, 99.0, skewedPrice, epsilon)
 
 	skewBps = 0.0
 
-	skewedPrice = price.SkewPrice(px, skewBps)
+	skewedPrice = price.Skew(px, skewBps)
 	assert.InDelta(t, 100.0, skewedPrice, epsilon)
 
-	skewedPrice = price.SkewPrice(px, -skewBps)
+	skewedPrice = price.Skew(px, -skewBps)
 	assert.InDelta(t, 100.0, skewedPrice, epsilon)
 
 	skewBps = 5.0
 
-	skewedPrice = price.SkewPrice(px, skewBps)
+	skewedPrice = price.Skew(px, skewBps)
 	assert.InDelta(t, 100.05, skewedPrice, epsilon)
 
-	skewedPrice = price.SkewPrice(px, -skewBps)
+	skewedPrice = price.Skew(px, -skewBps)
 	assert.InDelta(t, 99.95, skewedPrice, epsilon)
 }
 

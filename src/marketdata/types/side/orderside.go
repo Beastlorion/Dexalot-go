@@ -1,4 +1,4 @@
-package mdtypes
+package side
 
 import "errors"
 
