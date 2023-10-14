@@ -19,7 +19,7 @@ func RoundWithPrecision(value float64, precision int) float64 {
 	return rounded
 }
 
-func RoundDirectional(f float64, precision int, roundingMode Mode) float64 {
+func RoundDirectionalWithPrecision(f float64, precision int, roundingMode Mode) float64 {
 	factor := math.Pow(10, float64(precision))
 	if roundingMode == RoundUp {
 		return math.Ceil(f*factor) / factor

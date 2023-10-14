@@ -1,16 +1,16 @@
-package mdtypes
+package ticker
 
 import (
 	"math"
 	"time"
 
-	"github.com/Abso1ut3Zer0/Dexalot-go/src/marketdata"
 	"github.com/Abso1ut3Zer0/Dexalot-go/src/marketdata/instr"
+	"github.com/Abso1ut3Zer0/Dexalot-go/src/marketdata/types/source"
 )
 
 type Ticker[T instr.Instrument] struct {
 	Instrument     T                 `json:"instrument"`
-	Source         marketdata.Source `json:"exchange"`
+	Source         source.Source `json:"exchange"`
 	Bid            float64           `json:"bid"`
 	Offer          float64           `json:"offer"`
 	Mid            float64           `json:"mid"`

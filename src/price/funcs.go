@@ -11,7 +11,7 @@ const (
 	Down
 )
 
-func SkewPrice(price, skewFactorBps float64) float64 {
+func Skew(price, skewFactorBps float64) float64 {
 	return price * (1 + skewFactorBps/bpsFactor)
 }
 

@@ -65,59 +65,59 @@ func TestRoundWithPrecision(t *testing.T) {
 	}
 }
 
-func TestRoundDirectional(t *testing.T) {
+func TestRoundDirectionalWithPrecision(t *testing.T) {
 	val := 1.245
 	prec := 2
-	rounded := floats.RoundDirectional(val, prec, floats.RoundUp)
+	rounded := floats.RoundDirectionalWithPrecision(val, prec, floats.RoundUp)
 	if rounded != 1.25 {
 		t.Errorf("expected %f, got %f", 1.25, rounded)
 	}
 
 	val = -.13765
 	prec = 3
-	rounded = floats.RoundDirectional(val, prec, floats.RoundDown)
+	rounded = floats.RoundDirectionalWithPrecision(val, prec, floats.RoundDown)
 	if rounded != -0.138 {
 		t.Errorf("expected %f, got %f", -0.138, rounded)
 	}
 
 	val = 1246782.1
 	prec = 0
-	rounded = floats.RoundDirectional(val, prec, floats.RoundUp)
+	rounded = floats.RoundDirectionalWithPrecision(val, prec, floats.RoundUp)
 	if rounded != 1246783 {
 		t.Errorf("expected %f, got %f", 1246783.0, rounded)
 	}
 
 	val = 1246782.9
 	prec = 0
-	rounded = floats.RoundDirectional(val, prec, floats.RoundDown)
+	rounded = floats.RoundDirectionalWithPrecision(val, prec, floats.RoundDown)
 	if rounded != 1246782 {
 		t.Errorf("expected %f, got %f", 1246782.0, rounded)
 	}
 
 	val = 54.2345
 	prec = 6
-	rounded = floats.RoundDirectional(val, prec, floats.RoundUp)
+	rounded = floats.RoundDirectionalWithPrecision(val, prec, floats.RoundUp)
 	if rounded != 54.2345 {
 		t.Errorf("expected %f, got %f", 54.2345, rounded)
 	}
 
 	val = 0.0
 	prec = 2
-	rounded = floats.RoundDirectional(val, prec, floats.RoundUp)
+	rounded = floats.RoundDirectionalWithPrecision(val, prec, floats.RoundUp)
 	if rounded != 0.0 {
 		t.Errorf("expected %f, got %f", 0.0, rounded)
 	}
 
 	val = -10.4
 	prec = 0
-	rounded = floats.RoundDirectional(val, prec, floats.RoundUp)
+	rounded = floats.RoundDirectionalWithPrecision(val, prec, floats.RoundUp)
 	if rounded != -10 {
 		t.Errorf("expected %f, got %f", -10.0, rounded)
 	}
 
 	val = -10.5
 	prec = 0
-	rounded = floats.RoundDirectional(val, prec, floats.RoundDown)
+	rounded = floats.RoundDirectionalWithPrecision(val, prec, floats.RoundDown)
 	if rounded != -11 {
 		t.Errorf("expected %f, got %f", -11.0, rounded)
 	}

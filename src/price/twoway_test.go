@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/Abso1ut3Zer0/Dexalot-go/src/marketdata/instr"
-	"github.com/Abso1ut3Zer0/Dexalot-go/src/marketdata/mdtypes"
+	"github.com/Abso1ut3Zer0/Dexalot-go/src/marketdata/types/ticker"
 	"github.com/Abso1ut3Zer0/Dexalot-go/src/price"
 )
 
@@ -119,7 +119,7 @@ func TestTwoWayFromTicker(t *testing.T) {
 	offer := 110.0
 	transactTime := time.Now()
 
-	ticker := mdtypes.Ticker[instr.Spot]{
+	ticker := ticker.Ticker[instr.Spot]{
 		Instrument:   instrument,
 		Bid:          bid,
 		Offer:        offer,
@@ -144,15 +144,15 @@ func TestTwoWayFromTicker(t *testing.T) {
 
 func TestTwoWayFromTickerNoTicker(t *testing.T) {
 	// Zero ticker is not the EmptyTwoWayPrice
-	var ticker mdtypes.Ticker[instr.Spot]
-	result := price.TwoWayFromTicker(ticker)
+	var tick ticker.Ticker[instr.Spot]
+	result := price.TwoWayFromTicker(tick)
 
 	if price.IsEmptyTwoWay(result) {
 		t.Errorf("expected a Zero result but got %v", result)
 	}
 
-	ticker = mdtypes.EmptyTicker[instr.Spot]()
-	result = price.TwoWayFromTicker(ticker)
+	tick = ticker.EmptyTicker[instr.Spot]()
+	result = price.TwoWayFromTicker(tick)
 	if !price.IsEmptyTwoWay(result) {
 		t.Errorf("expected an EmptyTwoWayPrice but got %v", result)
 	}

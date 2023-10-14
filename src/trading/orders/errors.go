@@ -1,4 +1,4 @@
-package trtypes
+package orders
 
 import "errors"
 
@@ -8,4 +8,3 @@ var NoTimeInForceError = errors.New("nil time in force")
 var NonPositivePriceError = errors.New("non-positive order price")
 var NonPositiveQtyError = errors.New("non-positive order qty")
 var NoSideError = errors.New("nil order side")
-var NoPrecisionTypeError = errors.New("no precision type")
