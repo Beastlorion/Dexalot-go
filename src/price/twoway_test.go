@@ -147,13 +147,13 @@ func TestTwoWayFromTickerNoTicker(t *testing.T) {
 	var tick ticker.Ticker[instr.Spot]
 	result := price.TwoWayFromTicker(tick)
 
-	if price.IsEmptyTwoWay(result) {
+	if price.IsEmptyTwoWay(*result) {
 		t.Errorf("expected a Zero result but got %v", result)
 	}
 
 	tick = ticker.EmptyTicker[instr.Spot]()
 	result = price.TwoWayFromTicker(tick)
-	if !price.IsEmptyTwoWay(result) {
+	if !price.IsEmptyTwoWay(*result) {
 		t.Errorf("expected an EmptyTwoWayPrice but got %v", result)
 	}
 }
