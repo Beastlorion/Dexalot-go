@@ -137,7 +137,7 @@ func TestTwoWayFromTicker(t *testing.T) {
 
 	result := price.TwoWayFromTicker(ticker)
 
-	if !reflect.DeepEqual(result, expectedResult) {
+	if !reflect.DeepEqual(*result, expectedResult) {
 		t.Errorf("expected %v but got %v", expectedResult, result)
 	}
 }
