@@ -68,7 +68,7 @@ func TestMakerEngine_MovingPrices(t *testing.T) {
 	baseQtyLevels := []float64{1, 5, 10}
 	now := time.Now()
 
-	orderBook := maker.NewMakerOrderBook(spot, ex)
+	orderBook := maker.NewOrderBook(spot, ex)
 	dispatcher := NewMockDispatcher[instr.Spot]()
 	controller := maker.NewMakerLayerController(spot, ex)
 	model := maker.NewFunctionalLiqudityCurve(
@@ -80,7 +80,7 @@ func TestMakerEngine_MovingPrices(t *testing.T) {
 		ex,
 	)
 
-	makerEngine := maker.NewMakerEngine[instr.Spot](dispatcher, orderBook, controller, model)
+	makerEngine := maker.NewEngine[instr.Spot](dispatcher, orderBook, controller, model)
 
 	// Run Offers no levels set
 	makerEngine.ReconcileAndReplaceOffers(mid, baseInventory, &refData, now)
@@ -689,7 +689,7 @@ func TestMakerEngine_Replenishment(t *testing.T) {
 	baseQtyLevels := []float64{1, 3, 5}
 	now := time.Now()
 
-	orderBook := maker.NewMakerOrderBook(spot, ex)
+	orderBook := maker.NewOrderBook(spot, ex)
 	dispatcher := NewMockDispatcher[instr.Spot]()
 	controller := maker.NewMakerLayerController(spot, ex)
 	model := maker.NewFunctionalLiqudityCurve(
@@ -702,7 +702,7 @@ func TestMakerEngine_Replenishment(t *testing.T) {
 	)
 
 	model.SetLevelQtysInBase(baseQtyLevels)
-	makerEngine := maker.NewMakerEngine[instr.Spot](dispatcher, orderBook, controller, model)
+	makerEngine := maker.NewEngine[instr.Spot](dispatcher, orderBook, controller, model)
 
 	// Run Offers
 	makerEngine.ReconcileAndReplaceOffers(mid, baseInventory, &refData, now)
@@ -1248,14 +1248,14 @@ func TestMakerEngine_USDT_USDC_Flickering(t *testing.T) {
 	baseQtyLevels := []float64{20_000.0}
 	now := time.Now()
 
-	orderBook := maker.NewMakerOrderBook(spot, ex)
+	orderBook := maker.NewOrderBook(spot, ex)
 	dispatcher := NewMockDispatcher[instr.Spot]()
 	controller := maker.NewMakerLayerController(spot, ex)
 
 	spreadModel := maker.NewWithBiasSpreadModel(maker.NewTwoFactorSymmetricCurveModel())
 	liquidityCurve := maker.NewFunctionalLiqudityCurve(spreadModel, spot, exchange.Dexalot)
 
-	makerEngine := maker.NewMakerEngine[instr.Spot](dispatcher, orderBook, controller, liquidityCurve)
+	makerEngine := maker.NewEngine[instr.Spot](dispatcher, orderBook, controller, liquidityCurve)
 	spreadModel.SetBidBiasBps(-1.0)
 	spreadModel.SetOfferBiasBps(-1.0)
     spreadModel.UnderlyingModel.SetInsideSpreadBps(1.0)
