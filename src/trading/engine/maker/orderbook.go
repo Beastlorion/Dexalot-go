@@ -19,14 +19,14 @@ type Layer struct {
 	Price         float64
 }
 
-type MakerOrderBook[T instr.Instrument] struct {
+type OrderBook[T instr.Instrument] struct {
 	instrument T
 	exchange   exchange.Exchange
 	Bids       *tree.RedBlack[Layer, *orders.Limit[T]]
 	Offers     *tree.RedBlack[Layer, *orders.Limit[T]]
 }
 
-func (book *MakerOrderBook[T]) ApplyExecutionReport(rep *report.ExecutionReport[T]) {
+func (book *OrderBook[T]) ApplyExecutionReport(rep *report.ExecutionReport[T]) {
 	if rep.Instrument != book.instrument || rep.Exchange != book.exchange || rep.OrderType != ordtypes.Limit {
 		return
 	}
@@ -72,8 +72,8 @@ func (book *MakerOrderBook[T]) ApplyExecutionReport(rep *report.ExecutionReport[
 	}
 }
 
-func NewMakerOrderBook[T instr.Instrument](instrument T, exchange exchange.Exchange) *MakerOrderBook[T] {
-	return &MakerOrderBook[T]{
+func NewOrderBook[T instr.Instrument](instrument T, exchange exchange.Exchange) *OrderBook[T] {
+	return &OrderBook[T]{
 		instrument: instrument,
 		exchange:   exchange,
 		Bids: tree.NewRedBlack[Layer, *orders.Limit[T]](func(a, b Layer) int {

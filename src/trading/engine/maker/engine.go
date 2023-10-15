@@ -20,30 +20,30 @@ type LiquidityCurve[T instr.Instrument] interface {
 	GenerateOffers(mid float64, now time.Time) []*orders.Limit[T]
 }
 
-type MakerDispatcher[T instr.Instrument] interface {
+type Dispatcher[T instr.Instrument] interface {
 	DispatchLimitOrder(order *orders.Limit[T])
 	DispatchCancelOrder(order *orders.Limit[T])
 }
 
-type MakerEngine[T instr.Instrument] struct {
-	dispatcher         MakerDispatcher[T]
-	confirmedOrderBook *MakerOrderBook[T]
+type Engine[T instr.Instrument] struct {
+	dispatcher         Dispatcher[T]
+	confirmedOrderBook *OrderBook[T]
 	controller         *MakerLayerController[T]
 	liquidityCurve     LiquidityCurve[T]
 }
 
-func (e *MakerEngine[T]) cancelRemaining(iter tree.NodeIterator[Layer, *orders.Limit[T]]) {
+func (e *Engine[T]) cancelRemaining(iter tree.NodeIterator[Layer, *orders.Limit[T]]) {
 	for iter.Next() {
 		e.dispatcher.DispatchCancelOrder(iter.Value())
 	}
 }
 
-func (e *MakerEngine[T]) CancelAll() {
+func (e *Engine[T]) CancelAll() {
 	e.cancelRemaining(e.confirmedOrderBook.Bids.Iterator())
 	e.cancelRemaining(e.confirmedOrderBook.Offers.Iterator())
 }
 
-func (e *MakerEngine[T]) normalizeAndValidateOrder(newOrder *orders.Limit[T], remainingInventoryInDealt float64, refData *refdata.Composite) error {
+func (e *Engine[T]) normalizeAndValidateOrder(newOrder *orders.Limit[T], remainingInventoryInDealt float64, refData *refdata.Composite) error {
 	if refData.UsePostOnly {
 		newOrder.TimeInForce = tif.PO
 	} else {
@@ -68,7 +68,7 @@ func (e *MakerEngine[T]) normalizeAndValidateOrder(newOrder *orders.Limit[T], re
 	return nil
 }
 
-func (e *MakerEngine[T]) shouldReplaceOrder(newOrder, oldOrder, lastOrder *orders.Limit[T], mid, remainingInventoryInDealt float64, refData *refdata.Composite, now time.Time) bool {
+func (e *Engine[T]) shouldReplaceOrder(newOrder, oldOrder, lastOrder *orders.Limit[T], mid, remainingInventoryInDealt float64, refData *refdata.Composite, now time.Time) bool {
     repostThreshold := halfSpreadRepostThreshold * math.Abs(mid-newOrder.Price)
     switch newOrder.Side {
     case side.BUY:
@@ -95,7 +95,7 @@ func (e *MakerEngine[T]) shouldReplaceOrder(newOrder, oldOrder, lastOrder *order
     return false
 }
 
-func (e *MakerEngine[T]) ReconcileAndReplaceOffers(mid, remainingBaseInventory float64, refData *refdata.Composite, now time.Time) error {
+func (e *Engine[T]) ReconcileAndReplaceOffers(mid, remainingBaseInventory float64, refData *refdata.Composite, now time.Time) error {
 	iter := e.confirmedOrderBook.Offers.Iterator()
 	newOffers := e.liquidityCurve.GenerateOffers(mid, now)
     var lastConfirmedOrder *orders.Limit[T]
@@ -143,7 +143,7 @@ func (e *MakerEngine[T]) ReconcileAndReplaceOffers(mid, remainingBaseInventory f
 	return nil
 }
 
-func (e *MakerEngine[T]) ReconcileAndReplaceBids(mid, remainingTermInventory float64, refData *refdata.Composite, now time.Time) error {
+func (e *Engine[T]) ReconcileAndReplaceBids(mid, remainingTermInventory float64, refData *refdata.Composite, now time.Time) error {
 	iter := e.confirmedOrderBook.Bids.Iterator()
 	newBids := e.liquidityCurve.GenerateBids(mid, now)
     var lastConfirmedOrder *orders.Limit[T]
@@ -191,12 +191,12 @@ func (e *MakerEngine[T]) ReconcileAndReplaceBids(mid, remainingTermInventory flo
 	return nil
 }
 
-func NewMakerEngine[T instr.Instrument](
-	dispatcher MakerDispatcher[T],
-	confirmedOrderBook *MakerOrderBook[T],
+func NewEngine[T instr.Instrument](
+	dispatcher Dispatcher[T],
+	confirmedOrderBook *OrderBook[T],
 	controller *MakerLayerController[T],
-	liquidityCurve LiquidityCurve[T]) *MakerEngine[T] {
-	return &MakerEngine[T]{
+	liquidityCurve LiquidityCurve[T]) *Engine[T] {
+	return &Engine[T]{
 		dispatcher:         dispatcher,
 		confirmedOrderBook: confirmedOrderBook,
 		controller:         controller,

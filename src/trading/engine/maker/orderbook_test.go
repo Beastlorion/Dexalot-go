@@ -16,7 +16,7 @@ import (
 )
 
 func TestMakerOrderBook(t *testing.T) {
-	makerOrderBook := maker.NewMakerOrderBook(instr.Spot{Base: instr.AVAX, Term: instr.USDC}, exchange.Coinbase)
+	makerOrderBook := maker.NewOrderBook(instr.Spot{Base: instr.AVAX, Term: instr.USDC}, exchange.Coinbase)
 
 	assert.Zero(t, makerOrderBook.Bids.Size())
 	assert.Zero(t, makerOrderBook.Offers.Size())

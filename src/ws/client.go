@@ -11,10 +11,8 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-const (
-	retries       = 5
-	reconnectTime = 250 * time.Millisecond
-)
+const reconnectTime = 250 * time.Millisecond
+
 
 type Client struct {
 	c         *websocket.Conn
@@ -33,34 +31,24 @@ func (client *Client) SetHandlers(pingWriteTimeout, pingReadTimeout time.Duratio
 }
 
 func (client *Client) Connect(url url.URL, header http.Header) error {
-	var e error
-	for tries := 0; tries < retries; tries++ {
-		c, _, err := websocket.DefaultDialer.Dial(url.String(), header)
-		if err != nil {
-			time.Sleep(reconnectTime << uint(tries))
-			e = err
-			continue
-		}
-		client.c = c
-		slog.Info("connected to websocket")
-		return nil
+	c, res, err := websocket.DefaultDialer.Dial(url.String(), header)
+	if err != nil {
+		return err
 	}
-	return fmt.Errorf("failed to connect to websocket: %s", e)
+
+	if res.StatusCode != http.StatusSwitchingProtocols {
+		return fmt.Errorf("failed to connect, status code: %d", res.StatusCode)
+	}
+	client.c = c
+	return nil
 }
 
 func (client *Client) Subscribe(handshake map[string]any) error {
-	var e error
-	for tries := 0; tries < retries; tries++ {
-		err := client.c.WriteJSON(handshake)
-		if err != nil {
-			time.Sleep(reconnectTime << uint(tries))
-			e = err
-			continue
-		}
-		slog.Info("subscribed to websocket")
-		return nil
+	err := client.c.WriteJSON(handshake)
+	if err != nil {
+		return err
 	}
-	return fmt.Errorf("failed to subscribe to websocket: %s", e)
+	return nil
 }
 
 func (client *Client) Read(ctx context.Context, cancel context.CancelFunc) {
