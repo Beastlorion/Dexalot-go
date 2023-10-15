@@ -67,6 +67,7 @@ type deployment struct {
 	Payload           payload `json:"abi"`
 }
 
+// TODO - add signing functionality so we can support requesting open orders
 type RESTHelper struct {
 	apiKey string
 	env    Network
