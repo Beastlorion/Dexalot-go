@@ -25,11 +25,11 @@ func TestRefDataManager(t *testing.T) {
 	}
 
 	refData1 := &refdata.Composite{
-		PriceQty:      precisionRefData,
-		TradeSizeLimit: baseLimitRefData,
-		MinQuoteTime:          1 * time.Second,
-		ReplenishmentRate:     5 * time.Second,
-		UsePostOnly:           false,
+		PriceQty:          precisionRefData,
+		TradeSizeLimit:    baseLimitRefData,
+		MinQuoteTime:      1 * time.Second,
+		ReplenishmentRate: 5 * time.Second,
+		UsePostOnly:       false,
 	}
 
 	exchange2 := exchange.Binance
@@ -46,11 +46,11 @@ func TestRefDataManager(t *testing.T) {
 	}
 
 	refData2 := &refdata.Composite{
-		PriceQty:      incrementRefData,
-		TradeSizeLimit: termLimitRefData,
-		MinQuoteTime:          1 * time.Second,
-		ReplenishmentRate:     5 * time.Second,
-		UsePostOnly:           false,
+		PriceQty:          incrementRefData,
+		TradeSizeLimit:    termLimitRefData,
+		MinQuoteTime:      1 * time.Second,
+		ReplenishmentRate: 5 * time.Second,
+		UsePostOnly:       false,
 	}
 
 	manager := refdata.NewManager[instr.Spot]()

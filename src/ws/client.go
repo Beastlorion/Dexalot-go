@@ -17,35 +17,35 @@ const (
 )
 
 type Client struct {
-    c *websocket.Conn
-    onMessage func([]byte)
+	c         *websocket.Conn
+	onMessage func([]byte)
 }
 
 // Note: this is required to fulfill the websocket protocol.
 func (client *Client) SetHandlers(pingWriteTimeout, pingReadTimeout time.Duration) {
-    client.c.SetPingHandler(func(data string) error {
-        return client.c.WriteControl(websocket.PongMessage, []byte(data), time.Now().Add(pingWriteTimeout))
-    })
+	client.c.SetPingHandler(func(data string) error {
+		return client.c.WriteControl(websocket.PongMessage, []byte(data), time.Now().Add(pingWriteTimeout))
+	})
 
-    client.c.SetPongHandler(func(data string) error {
-        return client.c.SetReadDeadline(time.Now().Add(pingReadTimeout))
-    })
+	client.c.SetPongHandler(func(data string) error {
+		return client.c.SetReadDeadline(time.Now().Add(pingReadTimeout))
+	})
 }
 
 func (client *Client) Connect(url url.URL, header http.Header) error {
-    var e error
-    for tries := 0; tries < retries; tries++ {
-        c, _, err := websocket.DefaultDialer.Dial(url.String(), header)
-        if err != nil {
-            time.Sleep(reconnectTime << uint(tries))
-            e = err
-            continue
-        }
-        client.c = c
+	var e error
+	for tries := 0; tries < retries; tries++ {
+		c, _, err := websocket.DefaultDialer.Dial(url.String(), header)
+		if err != nil {
+			time.Sleep(reconnectTime << uint(tries))
+			e = err
+			continue
+		}
+		client.c = c
 		slog.Info("connected to websocket")
-        return nil
-    }
-    return fmt.Errorf("failed to connect to websocket: %s", e)
+		return nil
+	}
+	return fmt.Errorf("failed to connect to websocket: %s", e)
 }
 
 func (client *Client) Subscribe(handshake map[string]any) error {
@@ -96,21 +96,21 @@ func (client *Client) Ping(ctx context.Context, cancel context.CancelFunc, pingI
 			ticker.Stop()
 			return
 		case <-ticker.C:
-            err := client.c.WriteControl(websocket.PingMessage, nil, time.Now().Add(pingWriteTimeout))
-            if err != nil {
+			err := client.c.WriteControl(websocket.PingMessage, nil, time.Now().Add(pingWriteTimeout))
+			if err != nil {
 				slog.Warn("Did not receive pong from server")
-                return
-            }
+				return
+			}
 		}
 	}
 }
 
 func (client *Client) Close() error {
-    return client.c.Close()
+	return client.c.Close()
 }
 
 func New(onMessage func([]byte)) *Client {
-    return &Client{
-        onMessage: onMessage,
-    }
+	return &Client{
+		onMessage: onMessage,
+	}
 }

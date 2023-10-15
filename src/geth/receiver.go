@@ -22,16 +22,16 @@ type EventHandler interface {
 
 // this is an area of improvement, as we could handle multiple filters
 type HeaderReceiver struct {
-	c *ethclient.Client
+	c       *ethclient.Client
 	timeout time.Duration
-	filter ethereum.FilterQuery
+	filter  ethereum.FilterQuery
 }
 
 func NewHeaderReceiver(c *ethclient.Client, timeout time.Duration) *HeaderReceiver {
 	return &HeaderReceiver{
-		c: c,
+		c:       c,
 		timeout: timeout,
-		filter: ethereum.FilterQuery{}, // we will just get all logs for a block range
+		filter:  ethereum.FilterQuery{}, // we will just get all logs for a block range
 	}
 }
 

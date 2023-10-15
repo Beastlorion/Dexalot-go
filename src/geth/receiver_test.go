@@ -1,6 +1,6 @@
 package geth_test
 
- import (
+import (
 	"context"
 	"testing"
 	"time"
@@ -35,9 +35,9 @@ func TestReceiveHeaders_AVAX_FUJI_C_CHAIN(t *testing.T) {
 	}
 	handlerCtx, handlerCancel := context.WithCancel(context.Background())
 	handler := &testHandler{cancel: handlerCancel, t: t}
-	reciever := geth.NewHeaderReceiver(rpcClient, 30 * time.Second)
+	reciever := geth.NewHeaderReceiver(rpcClient, 30*time.Second)
 	go reciever.Receive(ctx, handler, header)
-	
+
 	manager := geth.NewWSConnectionManager(avaxFujiWs)
 	go func() {
 		defer close(header)

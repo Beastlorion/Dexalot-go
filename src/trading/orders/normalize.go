@@ -63,14 +63,14 @@ func NormalizeMakerWithRefData[T instr.Instrument](order *Limit[T], refData *ref
 		return refdata.NilRefDataError
 	}
 	switch refData.PriceQty.(type) {
-		case *refdata.Precision:
-			rd, _ := refData.PriceQty.(*refdata.Precision)
-			return NormalizeMakerWithPrecision(order, rd.PricePrecision, rd.QtyPrecision)
-		case *refdata.Increment:
-			rd, _ := refData.PriceQty.(*refdata.Increment)
-			return NormalizeMakerWithIncrement(order, rd.PriceIncrement, rd.QtyIncrement)
-		default:
-			return refdata.UnsupportedRefDataError
+	case *refdata.Precision:
+		rd, _ := refData.PriceQty.(*refdata.Precision)
+		return NormalizeMakerWithPrecision(order, rd.PricePrecision, rd.QtyPrecision)
+	case *refdata.Increment:
+		rd, _ := refData.PriceQty.(*refdata.Increment)
+		return NormalizeMakerWithIncrement(order, rd.PriceIncrement, rd.QtyIncrement)
+	default:
+		return refdata.UnsupportedRefDataError
 	}
 }
 

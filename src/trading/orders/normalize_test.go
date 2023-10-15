@@ -458,9 +458,9 @@ func TestNormalizeMakerWithRefData(t *testing.T) {
 
 	refData = &refdata.Composite{PriceQty: struct{}{}}
 	if err := orders.NormalizeMakerWithRefData(order, refData); err == nil {
-	    t.Errorf("Expected error")
+		t.Errorf("Expected error")
 	} else if err != refdata.UnsupportedRefDataError {
-	    t.Errorf("Wrong error type")
+		t.Errorf("Wrong error type")
 	}
 }
 
@@ -478,8 +478,8 @@ func TestNormalizeTakerWithRefData(t *testing.T) {
 	refData = &refdata.Composite{PriceQty: struct{}{}}
 	// only check the error type
 	if err := orders.NormalizeTakerWithRefData(order, refData); err == nil {
-	    t.Errorf("Expected error")
+		t.Errorf("Expected error")
 	} else if err != refdata.UnsupportedRefDataError {
-	    t.Errorf("Wrong error type")
+		t.Errorf("Wrong error type")
 	}
 }

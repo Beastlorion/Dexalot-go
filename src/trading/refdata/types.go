@@ -17,8 +17,8 @@ var UnsupportedRefDataError = errors.New("unsupported reference data")
 type Interface interface{}
 
 type Precision struct {
-	PricePrecision   int
-	QtyPrecision    int
+	PricePrecision int
+	QtyPrecision   int
 }
 
 type Increment struct {
@@ -37,9 +37,9 @@ type TermTradeSizeLimit struct {
 }
 
 type Composite struct {
-	PriceQty Interface
-	TradeSizeLimit Interface
-	MinQuoteTime time.Duration
+	PriceQty          Interface
+	TradeSizeLimit    Interface
+	MinQuoteTime      time.Duration
 	ReplenishmentRate time.Duration
-	UsePostOnly bool
+	UsePostOnly       bool
 }

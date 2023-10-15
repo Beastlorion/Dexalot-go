@@ -19,8 +19,8 @@ const (
 )
 
 type WSConnectionManager struct {
-	wsURL string
-	c *ethclient.Client
+	wsURL    string
+	c        *ethclient.Client
 	isActive bool
 }
 
@@ -39,7 +39,7 @@ func (m *WSConnectionManager) watchHeaderSubscription(ctx context.Context, sub e
 			sub.Unsubscribe()
 			m.c.Close()
 			m.isActive = false
-			return 
+			return
 		case <-heartBeat.C:
 			slog.Info("Node Heartbeat", "pending", len(header), "capacity", cap(header))
 		case err := <-sub.Err():

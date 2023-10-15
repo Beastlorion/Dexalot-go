@@ -56,10 +56,10 @@ type AtomicManager struct {
 }
 
 func (i *AtomicManager) Get(asset instr.Asset, venue exchange.Exchange) (float64, bool) {
-    if val, ok := i.cache.Load(key{asset, venue}); ok {
-        return val.(float64), true
-    }
-    return 0, false
+	if val, ok := i.cache.Load(key{asset, venue}); ok {
+		return val.(float64), true
+	}
+	return 0, false
 }
 
 func (i *AtomicManager) Set(update Update) {

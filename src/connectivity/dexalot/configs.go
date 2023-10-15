@@ -62,18 +62,18 @@ func GetPairConfigs(apiKey string, env Network) (map[instr.Spot]PairConfig, erro
 
 // TODO - feel free to extract min quote time, post only, and replenishment rate as configs
 func PairConfigToReferenceData(config *PairConfig) (*refdata.Composite, error) {
-    minTradeSize, err := strconv.ParseFloat(config.MinTradeAmount, 64)
-    if err != nil {
-        return nil, err
-    }
-    maxTradeSize, err := strconv.ParseFloat(config.MaxTradeAmount, 64)
-    if err != nil {
-        return nil, err
-    }
+	minTradeSize, err := strconv.ParseFloat(config.MinTradeAmount, 64)
+	if err != nil {
+		return nil, err
+	}
+	maxTradeSize, err := strconv.ParseFloat(config.MaxTradeAmount, 64)
+	if err != nil {
+		return nil, err
+	}
 
 	priceQtyRefData := &refdata.Precision{
 		PricePrecision: config.QuoteDisplayDecimals,
-		QtyPrecision: config.BaseDisplayDecimals,
+		QtyPrecision:   config.BaseDisplayDecimals,
 	}
 
 	tradeSizeRefData := &refdata.TermTradeSizeLimit{
@@ -81,13 +81,13 @@ func PairConfigToReferenceData(config *PairConfig) (*refdata.Composite, error) {
 		TermMaxTradeSize: maxTradeSize,
 	}
 
-    return &refdata.Composite{
-		PriceQty: priceQtyRefData,
-		TradeSizeLimit: tradeSizeRefData,
-        MinQuoteTime: time.Duration(2 * time.Second),
-        ReplenishmentRate: time.Duration(10 * time.Second),
-        UsePostOnly: true,
-    }, nil
+	return &refdata.Composite{
+		PriceQty:          priceQtyRefData,
+		TradeSizeLimit:    tradeSizeRefData,
+		MinQuoteTime:      time.Duration(2 * time.Second),
+		ReplenishmentRate: time.Duration(10 * time.Second),
+		UsePostOnly:       true,
+	}, nil
 }
 
 type TokenConfig struct {
