@@ -9,14 +9,14 @@ import (
 )
 
 type Ticker[T instr.Instrument] struct {
-	Instrument     T                 `json:"instrument"`
+	Instrument     T             `json:"instrument"`
 	Source         source.Source `json:"exchange"`
-	Bid            float64           `json:"bid"`
-	Offer          float64           `json:"offer"`
-	Mid            float64           `json:"mid"`
-	Last           float64           `json:"last"`
-	SequenceNumber int64             `json:"sequenceNumber"`
-	TransactTime   time.Time         `json:"transactTime"`
+	Bid            float64       `json:"bid"`
+	Offer          float64       `json:"offer"`
+	Mid            float64       `json:"mid"`
+	Last           float64       `json:"last"`
+	SequenceNumber int64         `json:"sequenceNumber"`
+	TransactTime   time.Time     `json:"transactTime"`
 }
 
 func EmptyTicker[T instr.Instrument]() Ticker[T] {

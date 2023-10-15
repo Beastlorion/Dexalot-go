@@ -13,27 +13,27 @@ import (
 
 // Note: Optionals are indicated as pointers
 type ExecutionReport[T instr.Instrument] struct {
-	Instrument    T                 // Instrument of the order.
-	Exchange      exchange.Exchange          // Exchange of the order.
-	ClientOrderID string            // Unique ID for the order assigned by the client (us).
-	OrderID       string            // Unique ID for the order assigned by the exchange.
-	Price         float64           // Price of the order.
-	Qty           float64           // Qty of the order.
-	Side          side.OrderSide // Side of the order.
-	OrderStatus   ordstatus.OrderStatus       // OrderStatus of the order.
-	OrderType     ordtypes.OrderType         // Type of the order.
+	Instrument    T                     // Instrument of the order.
+	Exchange      exchange.Exchange     // Exchange of the order.
+	ClientOrderID string                // Unique ID for the order assigned by the client (us).
+	OrderID       string                // Unique ID for the order assigned by the exchange.
+	Price         float64               // Price of the order.
+	Qty           float64               // Qty of the order.
+	Side          side.OrderSide        // Side of the order.
+	OrderStatus   ordstatus.OrderStatus // OrderStatus of the order.
+	OrderType     ordtypes.OrderType    // Type of the order.
 	TimeInForce   tif.TimeInForce       // Time in force of the order.
-	TransactTime  *time.Time        // Transact time of the order
-	Account       *string           // Account of the order (optional).
-	TotalFee      *float64          // Total fee of the order (optional).
-	FilledQty     *float64          // Qty of the order that has been filled.
-	LeavesQty     *float64          // Leaves qty of the order (optional).
-	CumQty        *float64          // Cumulative qty of the order (optional).
-	AvgPrice      *float64          // Average price of the order (optional).
-	LastPrice     *float64          // Last price of the order (optional).
-	Version       *uint8            // Exchange version of the order (optional).
-	RejectReason  *string           // Reason for the order being rejected (optional).
-	ErrorReason   *string           // Reason for the order being errored (optional).
+	TransactTime  time.Time             // Transact time of the order
+	Account       *string               // Account of the order (optional).
+	TotalFee      *float64              // Total fee of the order (optional).
+	FilledQty     *float64              // Qty of the order that has been filled.
+	LeavesQty     *float64              // Leaves qty of the order (optional).
+	CumQty        *float64              // Cumulative qty of the order (optional).
+	AvgPrice      *float64              // Average price of the order (optional).
+	LastPrice     *float64              // Last price of the order (optional).
+	Version       *uint8                // Exchange version of the order (optional).
+	RejectReason  *string               // Reason for the order being rejected (optional).
+	ErrorReason   *string               // Reason for the order being errored (optional).
 }
 
 type Builder[T instr.Instrument] struct {
@@ -50,7 +50,8 @@ func NewBuilder[T instr.Instrument](
 	side side.OrderSide,
 	orderStatus ordstatus.OrderStatus,
 	orderType ordtypes.OrderType,
-	timeInForce tif.TimeInForce) *Builder[T] {
+	timeInForce tif.TimeInForce,
+	transactTime time.Time) *Builder[T] {
 	return &Builder[T]{
 		report: &ExecutionReport[T]{
 			Instrument:    instrument,
@@ -63,17 +64,13 @@ func NewBuilder[T instr.Instrument](
 			OrderStatus:   orderStatus,
 			OrderType:     orderType,
 			TimeInForce:   timeInForce,
+			TransactTime:  transactTime,
 		},
 	}
 }
 
 func (b *Builder[T]) Build() *ExecutionReport[T] {
 	return b.report
-}
-
-func (b *Builder[T]) SetTransactTime(t time.Time) *Builder[T] {
-	b.report.TransactTime = &t
-	return b
 }
 
 func (b *Builder[T]) SetAccount(account string) *Builder[T] {

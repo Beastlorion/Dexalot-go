@@ -11,11 +11,11 @@ type managerKey[T instr.Instrument] struct {
 }
 
 type Manager[T instr.Instrument] struct {
-    refData map[managerKey[T]]*Composite
+	refData map[managerKey[T]]*Composite
 }
 
 func (r *Manager[T]) Register(exchange exchange.Exchange, instrument T, refData *Composite) {
-    r.refData[managerKey[T]{Exchange: exchange, Instrument: instrument}] = refData
+	r.refData[managerKey[T]{Exchange: exchange, Instrument: instrument}] = refData
 }
 
 func (r *Manager[T]) Get(exchange exchange.Exchange, instrument T) (*Composite, error) {

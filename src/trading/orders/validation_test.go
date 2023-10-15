@@ -180,7 +180,7 @@ func TestValidateOrderWithRefData(t *testing.T) {
 	refData.TradeSizeLimit = struct{}{}
 	// only check the error type
 	if err := orders.ValidateLimitWithRefData(order, refData); err == nil {
-	    t.Errorf("Expected error")
+		t.Errorf("Expected error")
 	} else if err != refdata.UnsupportedRefDataError {
 		t.Errorf("Wrong error type: %v", err)
 	}

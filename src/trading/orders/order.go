@@ -11,7 +11,6 @@ import (
 	"github.com/google/uuid"
 )
 
-
 func GenerateClientOrderID() string {
 	return strings.Replace(uuid.New().String(), "-", "", -1)
 }

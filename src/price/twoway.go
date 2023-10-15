@@ -48,8 +48,8 @@ func IsEmptyTwoWay[T instr.Instrument](price TwoWay[T]) bool {
 	return math.IsNaN(price.Bid) && math.IsNaN(price.Offer) && price.BidQty == 0.0 && price.OfferQty == 0.0
 }
 
-func TwoWayFromTicker[T instr.Instrument](ticker ticker.Ticker[T]) TwoWay[T] {
-	return TwoWay[T]{
+func TwoWayFromTicker[T instr.Instrument](ticker ticker.Ticker[T]) *TwoWay[T] {
+	return &TwoWay[T]{
 		Instrument:   ticker.Instrument,
 		Bid:          ticker.Bid,
 		Offer:        ticker.Offer,

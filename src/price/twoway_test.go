@@ -137,7 +137,7 @@ func TestTwoWayFromTicker(t *testing.T) {
 
 	result := price.TwoWayFromTicker(ticker)
 
-	if !reflect.DeepEqual(result, expectedResult) {
+	if !reflect.DeepEqual(*result, expectedResult) {
 		t.Errorf("expected %v but got %v", expectedResult, result)
 	}
 }
@@ -147,13 +147,13 @@ func TestTwoWayFromTickerNoTicker(t *testing.T) {
 	var tick ticker.Ticker[instr.Spot]
 	result := price.TwoWayFromTicker(tick)
 
-	if price.IsEmptyTwoWay(result) {
+	if price.IsEmptyTwoWay(*result) {
 		t.Errorf("expected a Zero result but got %v", result)
 	}
 
 	tick = ticker.EmptyTicker[instr.Spot]()
 	result = price.TwoWayFromTicker(tick)
-	if !price.IsEmptyTwoWay(result) {
+	if !price.IsEmptyTwoWay(*result) {
 		t.Errorf("expected an EmptyTwoWayPrice but got %v", result)
 	}
 }
